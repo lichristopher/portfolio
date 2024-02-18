@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body class="bg-[rgb(21,21,21)]">
-    <div class="max-w-6xl w-full mx-auto text-white">
+    <div class="max-w-6xl w-full mx-auto text-white px-10">
       <nav
         class="flex flex-col md:flex-row justify-between h-14 items-center py-20"
       >
@@ -81,7 +81,7 @@
         </header>
 
         <section
-          class="grid grid-cols-2 md:grid-cols-3 gap-16 border-b-4 border-green-400 pb-16"
+          class="grid grid-cols-2 md:grid-cols-4 gap-6 border-b-4 border-green-400 pb-16"
         >
           <div class="card">
             <h2 class="text-5xl">HTML</h2>
@@ -111,13 +111,31 @@
 
         <section id="projects">
           <header><h2 class="text-7xl my-16">Projects</h2></header>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="card space-y-6">
-              <img
+              <!-- <img
                 src="https://via.placeholder.com/800x600"
                 alt=""
                 class="w-full"
-              />
+              /> -->
+              <div
+                style="position: relative; padding-bottom: 56.25%; height: 0"
+              >
+                <iframe
+                  src="https://www.loom.com/embed/477ee83058dd449092aa6f81203a91a5?sid=407fc820-2b8f-4c72-ae47-b0b8450f6225"
+                  frameborder="0"
+                  webkitallowfullscreen
+                  mozallowfullscreen
+                  allowfullscreen
+                  style="
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                  "
+                ></iframe>
+              </div>
               <h2 class="text-5xl">Project 1</h2>
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis
@@ -156,7 +174,7 @@
       </main>
 
       <section class="about border-y-4 border-green-400 py-16" id="about">
-        <h2 class="mb-8 text-5xl">About</h2>
+        <h2 class="mb-8 text-7xl">About</h2>
         <p class="max-w-prose">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci aut,
           officia necessitatibus voluptatum veritatis esse totam a rerum
@@ -1232,5 +1250,35 @@
         <p class="text-center">All rights reserved © 2024 Christopher Li</p>
       </footer>
     </div>
+
+    <script>
+      const sections = document.querySelectorAll('section');
+      const navLinks = document.querySelectorAll('nav a');
+
+      // Create an intersection observer
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              // Remove 'active' class from all navigation links
+              navLinks.forEach((navLink) => {
+                navLink.classList.remove('active');
+              });
+
+              // Add 'active' class to the navigation link that corresponds to the section
+              const id = entry.target.getAttribute('id');
+              const navLink = document.querySelector(`nav a[href="#${id}"]`);
+              navLink.classList.add('active');
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      // Observe each section
+      sections.forEach((section) => {
+        observer.observe(section);
+      });
+    </script>
   </body>
 </html>
