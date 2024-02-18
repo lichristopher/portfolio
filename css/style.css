@@ -17,9 +17,21 @@ body {
 input,
 textarea {
   font-family: 'Space Grotesk', sans-serif;
-  /* outline: none; */
 }
 
 .absolute {
   opacity: 0.1;
+  animation: updown 5s linear infinite;
+}
+
+@keyframes updown {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-50px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
