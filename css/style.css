@@ -19,3 +19,7 @@ textarea {
   font-family: 'Space Grotesk', sans-serif;
   /* outline: none; */
 }
+
+.absolute {
+  opacity: 0.1;
+}
