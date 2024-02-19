@@ -1198,18 +1198,16 @@
               </svg>
             </div>
           </div>
-          <div class="">
-            <div>
-              <span class="uppercase text-sm font-bold">Full Name</span>
-              <input
-                class="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                type="text"
-                placeholder=""
-              />
-            </div>
+          <form
+            action="https://formspree.io/f/xwkgoagr"
+            method="POST"
+            id="my-form"
+          >
             <div class="mt-8">
               <span class="uppercase text-sm font-bold">Email</span>
               <input
+                type="email"
+                name="email"
                 class="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                 type="text"
               />
@@ -1217,17 +1215,20 @@
             <div class="mt-8">
               <span class="uppercase text-sm font-bold">Message</span>
               <textarea
+                name="message"
                 class="w-full h-32 bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
               ></textarea>
             </div>
             <div class="mt-8">
               <button
+                id="my-form-button"
                 class="uppercase text-sm font-bold tracking-wide bg-indigo-500 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline"
               >
                 Send Message
               </button>
+              <p id="my-form-status"></p>
             </div>
-          </div>
+          </form>
         </div>
       </section>
 
@@ -1260,33 +1261,41 @@
     </div>
 
     <script>
-      const sections = document.querySelectorAll('section');
-      const navLinks = document.querySelectorAll('nav a');
+      var form = document.getElementById('my-form');
 
-      // Create an intersection observer
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              // Remove 'active' class from all navigation links
-              navLinks.forEach((navLink) => {
-                navLink.classList.remove('active');
+      async function handleSubmit(event) {
+        event.preventDefault();
+        var status = document.getElementById('my-form-status');
+        var data = new FormData(event.target);
+        fetch(event.target.action, {
+          method: form.method,
+          body: data,
+          headers: {
+            Accept: 'application/json',
+          },
+        })
+          .then((response) => {
+            if (response.ok) {
+              status.innerHTML = 'Thanks for your submission!';
+              form.reset();
+            } else {
+              response.json().then((data) => {
+                if (Object.hasOwn(data, 'errors')) {
+                  status.innerHTML = data['errors']
+                    .map((error) => error['message'])
+                    .join(', ');
+                } else {
+                  status.innerHTML =
+                    'Oops! There was a problem submitting your form';
+                }
               });
-
-              // Add 'active' class to the navigation link that corresponds to the section
-              const id = entry.target.getAttribute('id');
-              const navLink = document.querySelector(`nav a[href="#${id}"]`);
-              navLink.classList.add('active');
             }
+          })
+          .catch((error) => {
+            status.innerHTML = 'Oops! There was a problem submitting your form';
           });
-        },
-        { threshold: 0.1 }
-      );
-
-      // Observe each section
-      sections.forEach((section) => {
-        observer.observe(section);
-      });
+      }
+      form.addEventListener('submit', handleSubmit);
     </script>
   </body>
 </html>
